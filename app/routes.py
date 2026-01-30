@@ -266,20 +266,3 @@ def calculate_pro():
         return jsonify(results)
     except Exception as e:
         return jsonify({'error': str(e)}), 400
-
-from flask import request, render_template
-
-@app.route('/panel-secreto')
-def ver_registros():
-    # Esta es tu palabra clave: puedes cambiar "bryan123" por lo que quieras
-    clave_maestra = "bryan123"
-    
-    # Obtenemos la clave que se escriba en la URL
-    clave_ingresada = request.args.get('password')
-    
-    if clave_ingresada == clave_maestra:
-        from app.models import User
-        usuarios = User.query.all()
-        return render_template('admin_usuarios.html', usuarios=usuarios)
-    else:
-        return "<h1>Acceso Denegado</h1><p>No tienes permisos para ver esta lista.</p>", 403
