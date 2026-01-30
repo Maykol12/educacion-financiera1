@@ -266,3 +266,9 @@ def calculate_pro():
         return jsonify(results)
     except Exception as e:
         return jsonify({'error': str(e)}), 400
+
+@app.route('/ver-registros-privado')
+def ver_registros():
+    from app.models import User  # Verifica que tu modelo se llame User
+    usuarios = User.query.all()
+    return render_template('admin_usuarios.html', usuarios=usuarios)
