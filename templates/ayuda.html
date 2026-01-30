@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Ayuda - Simulador Financiero{% endblock %}
+
+{% block breadcrumb %}
+<div class="breadcrumb">
+    <div class="container">
+        <a href="/">Inicio</a> <span class="separator">/</span> <span class="current">Ayuda</span>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <h2>Ayuda</h2>
+        <p>Guías y tutoriales para usar el simulador de manera efectiva.</p>
+        <div class="help-content">
+            <div class="help-section">
+                <h3>¿Cómo usar el simulador?</h3>
+                <ol>
+                    <li>Ingresa el nombre de tu emprendimiento y selecciona el sector.</li>
+                    <li>Elige el mes de análisis.</li>
+                    <li>Ingresa tus ingresos mensuales esperados.</li>
+                    <li>Registra tus costos fijos, variables y gastos operativos.</li>
+                    <li>Haz clic en "Calcular" para ver los resultados.</li>
+                </ol>
+            </div>
+            <div class="help-section">
+                <h3>¿Qué significan los indicadores?</h3>
+                <ul>
+                    <li><strong>Utilidad Bruta:</strong> Ingresos menos costos variables.</li>
+                    <li><strong>Utilidad Neta:</strong> Ganancia final después de todos los costos.</li>
+                    <li><strong>Flujo de Caja:</strong> Dinero disponible para operaciones.</li>
+                    <li><strong>Punto de Equilibrio:</strong> Ventas mínimas para no perder dinero.</li>
+                </ul>
+            </div>
+            <div class="help-section">
+                <h3>Análisis de Escenarios</h3>
+                <p>Simula cambios en costos o ventas para ver el impacto en tus finanzas.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

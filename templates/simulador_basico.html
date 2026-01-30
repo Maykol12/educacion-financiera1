@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+
+{% block title %}Simulador - Simulador Financiero{% endblock %}
+
+{% block breadcrumb %}
+<div class="breadcrumb">
+    <div class="container">
+        <a href="/">Inicio</a> <span class="separator">/</span> <a href="/simulador">Simuladores</a> <span class="separator">/</span> <span class="current">Simulador Express</span>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <h2>Simulador Express</h2>
+        <p>Ingresa datos rápidos para un análisis de salud financiera inmediato.</p>
+        
+        <div class="tutorial-banner">
+            <button type="button" id="start-tutorial-btn" class="btn-primary" style="background-color: #f39c12; border-color: #e67e22;">
+                <i class="fas fa-magic"></i> ¿Cómo usar el simulador? (Guía Rápida)
+            </button>
+        </div>
+
+        <form id="business-form" class="business-form">
+            <div class="form-group">
+                <label for="business-name">Nombre del Emprendimiento: <span class="help-icon" data-concept="nombre">?</span></label>
+                <input type="text" id="business-name" name="business-name" required>
+                <div id="error-business-name" class="error-message"></div>
+            </div>
+            <div class="form-group">
+                <label for="sector">Sector: <span class="help-icon" data-concept="sector">?</span></label>
+                <select id="sector" name="sector" required>
+                    <option value="">Selecciona un sector</option>
+                    <option value="tienda">Tienda</option>
+                    <option value="comida">Comida</option>
+                    <option value="servicios">Servicios</option>
+                    <option value="otro">Otro</option>
+                </select>
+                <div id="error-sector" class="error-message"></div>
+            </div>
+            <div class="form-group">
+                <label for="month">Mes de Análisis: <span class="help-icon" data-concept="mes">?</span></label>
+                <input type="month" id="month" name="month" required>
+                <div id="error-month" class="error-message"></div>
+            </div>
+            <div class="form-group">
+                <label for="income">Ingresos Mensuales Esperados ($): <span class="help-icon" data-concept="ingresos">?</span></label>
+                <input type="number" id="income" name="income" step="0.01" min="0" required>
+                <div id="error-income" class="error-message"></div>
+            </div>
+            <div class="form-group">
+                <label>Costos Fijos Mensuales ($): <span class="help-icon" data-concept="costos-fijos">?</span></label>
+                <div class="sub-form-group">
+                    <label for="rent">Alquiler/Local:</label>
+                    <input type="number" id="rent" name="rent" step="0.01" min="0" value="0">
+                </div>
+                <div class="sub-form-group">
+                    <label for="utilities">Servicios Básicos (agua, luz, internet):</label>
+                    <input type="number" id="utilities" name="utilities" step="0.01" min="0" value="0">
+                </div>
+                <div class="sub-form-group">
+                    <label for="insurance">Seguros:</label>
+                    <input type="number" id="insurance" name="insurance" step="0.01" min="0" value="0">
+                </div>
+                <div class="sub-form-group">
+                    <label for="salaries">Salarios Fijos:</label>
+                    <input type="number" id="salaries" name="salaries" step="0.01" min="0" value="0">
+                </div>
+                <div class="total-fixed">
+                    <strong>Total Costos Fijos: $<span id="total-fixed">0.00</span></strong>
+                </div>
+                <div id="error-fixed-costs" class="error-message"></div>
+            </div>
+            <div class="form-group">
+                <label>Costos Variables Mensuales: <span class="help-icon" data-concept="costos-variables">?</span></label>
+                <div class="radio-group">
+                    <label><input type="radio" name="variable-type" value="fixed" checked> Cantidad Fija ($)</label>
+                    <label><input type="radio" name="variable-type" value="percentage"> Porcentaje de Ingresos (%)</label>
+                </div>
+                <input type="number" id="variable-costs" name="variable-costs" step="0.01" min="0" required>
+                <small id="variable-help">Ej: Materia prima, insumos (cantidad fija)</small>
+                <div id="error-variable-costs" class="error-message"></div>
+            </div>
+            <div class="form-group">
+                <label for="expenses">Gastos Operativos Mensuales ($): <span class="help-icon" data-concept="gastos">?</span></label>
+                <input type="number" id="expenses" name="expenses" step="0.01" min="0" required>
+                <small>Ej: Publicidad, transporte, telefonía</small>
+                <div id="error-expenses" class="error-message"></div>
+            </div>
+            <div class="form-actions main-actions">
+                <button type="submit" class="btn-primary">Calcular Resultados</button>
+                <button type="button" id="save-btn" class="btn-secondary">
+                    <i class="fas fa-save"></i> Guardar
+                </button>
+            </div>
+            <div class="form-actions secondary-actions" style="margin-top: 1rem; border-top: 1px solid #eee; padding-top: 1rem;">
+                <button type="button" id="new-simulation-btn" class="btn-secondary btn-small">Nueva Simulación</button>
+                <button type="button" id="clear-btn" class="btn-secondary btn-small">Limpiar Formulario</button>
+            </div>
+        </form>
+        <div id="results" class="results" style="display: none;">
+            <!-- Results will be displayed here -->
+        </div>
+        <div id="scenarios" class="scenarios" style="display: none;">
+            <h4>Análisis de Escenarios <span class="help-icon" data-concept="escenarios">?</span></h4>
+            <div class="scenario-controls">
+                <div class="scenario-item">
+                    <label for="cost-increase">Aumento de Costos (%):</label>
+                    <input type="number" id="cost-increase" min="0" max="100" step="1" value="0">
+                    <button id="apply-cost-scenario">Aplicar</button>
+                </div>
+                <div class="scenario-item">
+                    <label for="sales-decrease">Disminución de Ventas (%):</label>
+                    <input type="number" id="sales-decrease" min="0" max="100" step="1" value="0">
+                    <button id="apply-sales-scenario">Aplicar</button>
+                </div>
+                <div class="scenario-item">
+                    <label for="price-increase">Aumento de Precio (%):</label>
+                    <input type="number" id="price-increase" min="0" max="100" step="1" value="0">
+                    <button id="apply-price-scenario">Aplicar</button>
+                </div>
+                <div class="scenario-item">
+                    <h5>Simular Crédito</h5>
+                    <label for="credit-amount">Monto ($): <span class="help-icon" data-concept="credito-monto">?</span></label>
+                    <input type="number" id="credit-amount" min="0" step="100" value="0">
+                    <label for="credit-rate">Tasa Anual (%): <span class="help-icon" data-concept="credito-tasa">?</span></label>
+                    <input type="number" id="credit-rate" min="0" step="0.5" value="12">
+                    <label for="credit-term">Plazo (meses): <span class="help-icon" data-concept="credito-plazo">?</span></label>
+                    <input type="number" id="credit-term" min="1" step="1" value="12">
+                    <button id="apply-credit-scenario">Simular Crédito</button>
+                </div>
+                <div class="scenario-actions">
+                    <button id="save-scenario-1" class="btn-secondary">Guardar como Escenario 1</button>
+                    <button id="save-scenario-2" class="btn-secondary">Guardar como Escenario 2</button>
+                    <button id="reset-scenario" class="btn-secondary">Reiniciar Escenario Actual</button>
+                </div>
+            </div>
+            <div id="scenario-comparison" class="scenario-comparison">
+                <!-- Side by side comparison will be displayed here -->
+            </div>
+            <div id="scenario-results" class="scenario-results"></div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+{% endblock %}

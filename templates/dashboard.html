@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}Mi Progreso - Simulador Financiero{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <h2>Hola, {{ current_user.username }} 👋</h2>
+        <p>Este es tu resumen de aprendizaje financiero.</p>
+        
+        <div class="alert-dashboard">
+            <div class="alert-card alert-saludable">
+                <small>Conceptos Vistos</small>
+                <div>{{ completed_concepts_count }} / {{ total_concepts }}</div>
+                <small>¡Sigue aprendiendo!</small>
+            </div>
+            <div class="alert-card alert-normal">
+                <small>Casos Resueltos</small>
+                <div>{{ completed_cases_count }} / {{ total_cases }}</div>
+                <small>La práctica hace al maestro</small>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 2rem;">
+            <h3>Tu Próximo Paso</h3>
+            {% if not simulations %}
+            <p>Aún no has completado ninguna simulación en esta sesión.</p>
+            {% else %}
+            <p>Ya has guardado {{ simulations|length }} simulaciones. Haz clic en una para ver detalles (próximamente).</p>
+            {% endif %}
+            <div style="margin-top: 1rem;">
+                <a href="/simulador" class="btn-primary">Ir al Simulador</a>
+                <a href="/casos" class="btn-secondary">Resolver un Caso</a>
+            </div>
+        </div>
+
+        {% if simulations %}
+        <div style="margin-top: 2rem;">
+            <h3>Simulaciones Guardadas</h3>
+            <table class="results-table" style="background: white; border-radius: 8px;">
+                <thead>
+                    <tr style="background: #f8f9fa;">
+                        <th>Nombre</th>
+                        <th>Mes</th>
+                        <th>Ingresos</th>
+                        <th>Utilidad Neta</th>
+                        <th>Fecha</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for sim in simulations %}
+                    <tr>
+                        <td>{{ sim.business_name }}</td>
+                        <td>{{ sim.month }}</td>
+                        <td>${{ sim.income }}</td>
+                        <td style="color: {{ '#27ae60' if sim.net_profit > 0 else '#e74c3c' }}">
+                            ${{ sim.net_profit }}
+                        </td>
+                        <td><small>{{ sim.created_at.strftime('%Y-%m-%d') }}</small></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

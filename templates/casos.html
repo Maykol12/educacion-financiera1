@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Casos Prácticos - Simulador Financiero{% endblock %}
+
+{% block breadcrumb %}
+<div class="breadcrumb">
+    <div class="container">
+        <a href="/">Inicio</a> <span class="separator">/</span> <span class="current">Casos Prácticos</span>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <h2>Casos Prácticos</h2>
+        <p>Ejemplos reales de situaciones financieras que enfrentan los emprendedores.</p>
+        <div class="cases-grid">
+            {% for case in cases %}
+            <div class="case-card {{ 'completed' if case.id in completed_ids }}" id="case-{{ case.id }}">
+                <h4>
+                    {{ case.title }}
+                    {% if case.id in completed_ids %}
+                    <span class="badge badge-success" style="float: right; font-size: 0.7rem;">✔ Resuelto</span>
+                    {% endif %}
+                </h4>
+                <p>{{ case.description }}</p>
+                <div class="case-options">
+                    <button class="btn-secondary case-opt {{ 'btn-success' if completed_ids.get(case.id) == 'A' }}" 
+                            data-case="{{ case.id }}" data-opt="A" data-feedback="{{ case.feedback_a }}">
+                        Opción A: {{ case.option_a }}
+                    </button>
+                    <button class="btn-secondary case-opt {{ 'btn-success' if completed_ids.get(case.id) == 'B' }}" 
+                            data-case="{{ case.id }}" data-opt="B" data-feedback="{{ case.feedback_b }}">
+                        Opción B: {{ case.option_b }}
+                    </button>
+                </div>
+                <div class="case-feedback" id="feedback-{{ case.id }}">
+                    {% if case.id in completed_ids %}
+                        <p style="margin-top: 1rem; color: #27ae60; font-weight: bold;">
+                            Seleccionaste {{ completed_ids.get(case.id) }}: {{ case.feedback_a if completed_ids.get(case.id) == 'A' else case.feedback_b }}
+                        </p>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

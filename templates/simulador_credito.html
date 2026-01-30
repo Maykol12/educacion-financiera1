@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}Simulador de Crédito - Simulador Financiero{% endblock %}
+
+{% block breadcrumb %}
+<div class="breadcrumb">
+    <div class="container">
+        <a href="/">Inicio</a> <span class="separator">/</span> <a href="/simulador">Simuladores</a> <span class="separator">/</span> <span class="current">Crédito Bancario</span>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <h2 style="text-align: center; margin-bottom: 2rem;">Simulador de Crédito Bancario</h2>
+        
+        <form id="credit-only-form" class="business-form">
+            <h4 style="border-bottom: 2px solid #3498db; padding-bottom: 5px; margin-bottom: 1.5rem;"><i class="fas fa-hand-holding-dollar"></i> Datos del Préstamo</h4>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="monto">Monto a Solicitar ($): <span class="help-icon" data-concept="credito-monto">?</span></label>
+                    <input type="number" id="monto" name="monto" required min="1" step="100" placeholder="Ej: 5000000">
+                </div>
+                <div class="form-group">
+                    <label for="tasa">Tasa Anual (%): <span class="help-icon" data-concept="credito-tasa">?</span></label>
+                    <input type="number" id="tasa" name="tasa" required min="0" step="0.1" value="15">
+                </div>
+                <div class="form-group">
+                    <label for="plazo">Plazo (Meses): <span class="help-icon" data-concept="credito-plazo">?</span></label>
+                    <input type="number" id="plazo" name="plazo" required min="1" step="1" value="12">
+                </div>
+                <div class="form-group">
+                    <label for="tipo-amortizacion">Tipo de Amortización: <span class="help-icon" data-concept="credito-amortizacion">?</span></label>
+                    <select id="tipo-amortizacion" name="tipo-amortizacion" required>
+                        <option value="francesa" selected>Francesa (Cuota Fija)</option>
+                        <option value="alemana">Alemana (Abono Fijo a Capital)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-actions main-actions">
+                <button type="submit" class="btn-primary">
+                    <i class="fas fa-calculator"></i> Calcular Cuota
+                </button>
+                <button type="reset" id="clear-credit" class="btn-secondary">
+                    <i class="fas fa-eraser"></i> Limpiar
+                </button>
+            </div>
+        </form>
+
+        <div id="credit-results" class="results" style="display: none; margin-top: 2rem;">
+            <h4 style="margin-bottom: 2rem;">Resultados del Crédito</h4>
+            <div class="alert-dashboard">
+                <div class="alert-card alert-saludable">
+                    <small>Cuota Mensual</small>
+                    <div id="res-cuota" style="font-size: 1.5rem;">$0.00</div>
+                    <small>Estimado Fijo</small>
+                </div>
+                <div class="alert-card alert-normal">
+                    <small>Total a Pagar</small>
+                    <div id="res-total" style="font-size: 1.5rem;">$0.00</div>
+                    <small>Capital + Intereses</small>
+                </div>
+                <div class="alert-card alert-critico">
+                    <small>Total Intereses</small>
+                    <div id="res-intereses" style="font-size: 1.5rem;">$0.00</div>
+                    <small>Costo del Dinero</small>
+                </div>
+            </div>
+
+            <div class="amortization-table-container" style="margin-top: 2.5rem;">
+                <h5 style="color: #2c3e50; margin-bottom: 1rem;"><i class="fas fa-list-ol"></i> Tabla de Amortización Mensual</h5>
+                <div class="table-responsive">
+                    <table id="amortization-table" class="results-table">
+                        <thead style="background: #3498db; color: white;">
+                            <tr>
+                                <th style="padding: 10px; text-align: center;">Mes</th>
+                                <th style="padding: 10px; text-align: right;">Saldo Inicial</th>
+                                <th style="padding: 10px; text-align: right;">Cuota</th>
+                                <th style="padding: 10px; text-align: right;">Interés</th>
+                                <th style="padding: 10px; text-align: right;">Abono Capital</th>
+                                <th style="padding: 10px; text-align: right;">Saldo Final</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .results-table th { font-weight: bold; border-bottom: 2px solid #2980b9; }
+</style>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{{ url_for('static', filename='js/simulador_credito.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Simulador Financiero - Educación Financiera{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <h1><a href="/">Simulador Financiero</a></h1>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="/" class="{% if request.path == '/' %}active{% endif %}">Inicio</a></li>
+                    <li><a href="/simulador" class="{% if '/simulador' in request.path %}active{% endif %}">Simulador</a></li>
+                    {% if current_user.is_authenticated %}
+                    <li><a href="/conceptos" class="{% if '/conceptos' in request.path %}active{% endif %}">Conceptos</a></li>
+                    <li><a href="/casos" class="{% if '/casos' in request.path %}active{% endif %}">Casos Prácticos</a></li>
+                    <li><a href="{{ url_for('main.dashboard') }}" class="{% if '/dashboard' in request.path %}active{% endif %}">Mi Progreso</a></li>
+                    <li><a href="{{ url_for('auth.logout') }}" class="logout-link">Salir</a></li>
+                    {% else %}
+                    <li><a href="{{ url_for('auth.login') }}">Entrar</a></li>
+                    <li><a href="{{ url_for('auth.signup') }}" class="btn-signup">Regístrate</a></li>
+                    {% endif %}
+                    <!-- <li><a href="/ayuda" class="{% if '/ayuda' in request.path %}active{% endif %}">Ayuda</a></li> -->
+                </ul>
+                <button class="menu-toggle" aria-label="Toggle menu">☰</button>
+            </div>
+        </nav>
+    </header>
+    {% block breadcrumb %}{% endblock %}
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Simulador Financiero - Educación Financiera</p>
+        </div>
+    </footer>
+
+    <!-- Global Help Modal -->
+    <div id="help-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3 id="modal-title">Concepto</h3>
+            <div id="modal-body">Cargando...</div>
+        </div>
+    </div>
+
+    <script>
+        const IS_AUTHENTICATED = {{ current_user.is_authenticated|tojson }};
+    </script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>

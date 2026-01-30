@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Inicio - Simulador Financiero{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="container">
+        <h2>Bienvenido al Simulador Financiero</h2>
+        <p>Una herramienta educativa diseñada para jóvenes emprendedores. Gestiona tus finanzas, proyecta escenarios y domina los conceptos clave para el éxito de tu negocio.</p>
+    </div>
+</section>
+
+<section class="home-navigation">
+    <div class="container">
+        <div class="nav-cards-grid">
+            <a href="/simulador" class="nav-card">
+                <i class="fa-solid fa-calculator"></i>
+                <h4>Simulador</h4>
+                <p>Proyecta tus ingresos, costos e indicadores en tiempo real.</p>
+            </a>
+            
+            {% if current_user.is_authenticated %}
+            <a href="/conceptos" class="nav-card">
+                <i class="fa-solid fa-book-open"></i>
+                <h4>Conceptos</h4>
+                <p>Domina el lenguaje financiero con definiciones claras.</p>
+            </a>
+            
+            <a href="/casos" class="nav-card">
+                <i class="fa-solid fa-brain"></i>
+                <h4>Casos Prácticos</h4>
+                <p>Ponte a prueba resolviendo desafíos de negocios reales.</p>
+            </a>
+            {% else %}
+            <a href="{{ url_for('auth.signup') }}" class="nav-card" style="border: 2px dashed #3498db; background: #ebf5fb;">
+                <i class="fa-solid fa-user-plus" style="color: #3498db;"></i>
+                <h4>Únete al Curso</h4>
+                <p>Regístrate para desbloquear los conceptos y casos prácticos.</p>
+            </a>
+            {% endif %}
+            
+            <a href="/ayuda" class="nav-card">
+                <i class="fa-solid fa-circle-question"></i>
+                <h4>Ayuda</h4>
+                <p>Guía paso a paso para aprovechar la plataforma al máximo.</p>
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

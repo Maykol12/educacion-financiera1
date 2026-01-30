@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block title %}Selección de Simulador - Simulador Financiero{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <h2 style="text-align: center; margin-bottom: 1rem;">Caja de Herramientas Financieras</h2>
+        <p style="text-align: center; color: #666; max-width: 700px; margin: 0 auto 3rem;">Selecciona la herramienta que mejor responda a tus necesidades actuales. Cada una está diseñada para un nivel diferente de profundidad en tu análisis.</p>
+
+        <div class="simulator-cards-grid">
+            <!-- Basic Simulator -->
+            <div class="sim-card">
+                <div class="sim-card-icon"><i class="fas fa-bolt"></i></div>
+                <h3>Análisis Express</h3>
+                <p>Ideal para una validación rápida de viabilidad. Calcula márgenes básicos y punto de equilibrio sin complicaciones.</p>
+                <div class="sim-moment"><strong>Uso:</strong> Diagnóstico rápido / Idea inicial</div>
+                <ul class="sim-features">
+                    <li><i class="fas fa-check"></i> Utilidad neta inmediata</li>
+                    <li><i class="fas fa-check"></i> Punto de equilibrio simple</li>
+                    <li><i class="fas fa-check"></i> Simulación de cambios en precio/costos</li>
+                </ul>
+                <a href="/simulador/basico" class="btn-primary">Abrir Herramienta</a>
+            </div>
+
+            <!-- Advanced Simulator -->
+            <div class="sim-card">
+                <div class="sim-card-icon"><i class="fas fa-chart-line"></i></div>
+                <h3>Estructura de Negocio</h3>
+                <p>Para un análisis profundo y detallado. Permite desglosar ingresos por producto y proyectar el flujo de caja.</p>
+                <div class="sim-moment"><strong>Uso:</strong> Planeación a detalle / Crecimiento</div>
+                <ul class="sim-features">
+                    <li><i class="fas fa-check"></i> Granularidad por producto/servicio</li>
+                    <li><i class="fas fa-check"></i> Desglose de gastos operativos</li>
+                    <li><i class="fas fa-check"></i> Proyección financiera a 12 meses</li>
+                </ul>
+                <a href="/simulador/negocio" class="btn-primary">Abrir Herramienta</a>
+            </div>
+
+            <!-- Credit Simulator -->
+            <div class="sim-card">
+                <div class="sim-card-icon"><i class="fas fa-hand-holding-dollar"></i></div>
+                <h3>Simulador de Crédito</h3>
+                <p>Herramienta técnica para evaluar el impacto de un financiamiento en tus costos mensuales.</p>
+                <div class="sim-moment"><strong>Uso:</strong> Evaluación de deuda / Apalancamiento</div>
+                <ul class="sim-features">
+                    <li><i class="fas fa-check"></i> Amortización Francesa y Alemana</li>
+                    <li><i class="fas fa-check"></i> Impacto real en el flujo de caja</li>
+                    <li><i class="fas fa-check"></i> Cálculo de costo total de intereses</li>
+                </ul>
+                <a href="/simulador/credito" class="btn-primary">Abrir Herramienta</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .simulator-cards-grid { 
+        display: grid; 
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+        gap: 2rem; 
+        margin-top: 2rem;
+    }
+    .sim-card {
+        background: white;
+        border: 1px solid #eee;
+        border-radius: 12px;
+        padding: 2.5rem 2rem;
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+    }
+    .sim-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    }
+    .sim-card.featured {
+        border: 2px solid #3498db;
+        box-shadow: 0 5px 15px rgba(52, 152, 219, 0.1);
+    }
+    .sim-card-badge {
+        position: absolute;
+        top: -12px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #3498db;
+        color: white;
+        padding: 0.3rem 1rem;
+        font-size: 0.8rem;
+        font-weight: bold;
+        border-radius: 20px;
+    }
+    .sim-card-icon {
+        font-size: 3rem;
+        color: #3498db;
+        margin-bottom: 1.5rem;
+    }
+    .sim-card h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: #2c3e50;
+    }
+    .sim-card p {
+        color: #666;
+        margin-bottom: 1rem;
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+    .sim-moment {
+        background: #f8f9fa;
+        padding: 0.5rem;
+        border-radius: 6px;
+        font-size: 0.85rem;
+        color: #2c3e50;
+        margin-bottom: 1.5rem;
+        border-left: 3px solid #3498db;
+    }
+    .sim-features {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 2rem 0;
+        text-align: left;
+        flex-grow: 1;
+    }
+    .sim-features li {
+        font-size: 0.9rem;
+        color: #555;
+        margin-bottom: 0.8rem;
+    }
+    .sim-features i {
+        color: #27ae60;
+        margin-right: 0.5rem;
+    }
+    .sim-card .btn-primary {
+        width: 100%;
+    }
+</style>
+{% endblock %}
